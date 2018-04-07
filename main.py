@@ -33,6 +33,7 @@ def run():
     background = pygame.Surface(screen.get_size())
     background = background.convert()
     background.fill((250, 250, 250))
+    backgroundImg = load_image('gates.jpg')[0]
 
     # Text on Background
     if pygame.font:     # checks if equals to None
@@ -42,8 +43,8 @@ def run():
         background.blit(text, textpos)
 
     while True:
+        background.blit(backgroundImg, [0, 0])
         screen.blit(background, (0, 0))
-        backImg, backImgRect = load_image('tree.png')
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
