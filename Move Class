@@ -1,9 +1,21 @@
 
 import pygame
+from pygame.locals import *
 import time
+import random
+
+
+# probably will take out all the framework stuff 
+pygame.init()
+
+width = 800
+height = 600
+
+gameDisplay = pygame.display.set_mode((800, 600)) # must put in a tuple, kinda like setting up a canvas its the 'surface'
+pygame.display.set_caption('move test')
+pygame.draw.rect(gameDisplay, (0,0,255), (0,0,800,600))
 
 class Move(pygame.sprite.Sprite):
-    
     def damage(self, attacker, defender):
         attackerType = attacker.type
         defenderType = defender.type
@@ -43,4 +55,85 @@ class RegradeReq(Move):
     def __init__(self):
         self.power = 42
         self.type = "water"
-        self.animation = time.sleep(1)
+        self.animation = regradeAnimate()
+        
+    @staticmethod
+    def regradeAnimate():
+        def init(data):
+            data.hands = pygame.image.load('prayemoji.png').convert()
+            data.imgW = 100
+            data.imgH = 100
+            data.rect = data.hands.get_rect()
+            data.counter = 0
+        
+        def draw(data):
+            while data.counter < 3:
+                data.x = random.randint(0, width/2-data.imgW)
+                data.y = random.randint(0, height/2-data.imgH)
+                data.rect.center = (data.x, data.y)
+                gameDisplay.blit(data.hands, (data.x, data.y))
+                pygame.display.flip()
+                time.sleep(.25)
+                data.counter +=1
+            data.counter = 0
+    
+        class Struct(object): pass
+        data = Struct()
+        init(data)
+        draw(data)
+        
+class Sleep(Move):
+    def __init__(self):
+        self.power = 0
+        attacker.health += 30
+        self.type = "grass"
+        self.animation = sleepAnimate()
+        
+    @staticmethod
+    def sleepAnimate():
+        def init(data):
+            data.zs = pygame.image.load('zs.png')
+            data.imgW = 100
+            data.imgH = 100
+            data.rect = data.zs.get_rect()
+            data.y = height/2
+            data.x = width/4
+            data.vel = 10
+            data.animSize = 50
+            data.counter = 0
+            
+        def draw(data):
+            while data.counter <= 1:
+                pygame.draw.rect(gameDisplay, (0,0,255), (0,0,800,600))
+                gameDisplay.blit(data.zs, (data.x, data.y))
+                pygame.display.flip()
+                if data.x+data.vel < width/3:
+                    data.x += data.vel
+                    data.y -= data.vel
+                else:
+                    data.y = height/2
+                    data.x = width/4
+                time.sleep(.2)
+                data.counter += .1
+            data.counter = 0
+        
+        class Struct(object): pass
+        data = Struct()
+        init(data)
+        draw(data)
+    
+
+
+pygame.display.update()
+
+gameExit = False
+
+while not gameExit:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            gameExit = True
+        if event.type == KEYDOWN and event.key == pygame.K_SPACE:
+            Sleep.sleepAnimate()
+
+pygame.quit()
+quit()
