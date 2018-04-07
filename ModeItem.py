@@ -2,16 +2,19 @@ import pygame
 from pygame.locals import *
 from Button import Button
 
-def itemProcessButtons(data):
+def itemDrawButtons(data, pos):
     for button in data.buttons:
-        button.draw(data.screen)
-        msg = button.check()
+        button.draw(pos, data.screen)
+
+def itemProcessClick(data, pos):
+    for button in data.buttons:
+        msg = button.check(pos)
         if msg != None:
-            if msg == "Quit":
+            if msg == "Back":
+                data.mode = "battleMode"
+            elif msg == "Quit":
                 pygame.quit()
                 return False
-            elif msg == "Back":
-                data.mode = "battleMode"
             else:
                 data.mode = "battleMode"
     return True

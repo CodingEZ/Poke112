@@ -9,15 +9,9 @@ class Button():
         self.height = h
         self.normalColor = nc
         self.hoverColor = hc
-        self.update()
 
-    def update(self):
-        self.mouse = pygame.mouse.get_pos()
-        self.click = pygame.mouse.get_pressed()
-
-    def draw(self, surface):
-        self.update()
-        if (self.x + self.width > self.mouse[0] > self.x) and (self.y + self.height > self.mouse[1] > self.y):
+    def draw(self, pos, surface):
+        if (self.x + self.width > pos[0] > self.x) and (self.y + self.height > pos[1] > self.y):
             color = self.hoverColor
         else:
             color = self.normalColor
@@ -26,8 +20,7 @@ class Button():
         surface.blit(smallText.render(self.msg, True, (255, 255, 255)),
                      (self.x + (self.width/4), self.y + (self.height/2)))
 
-    def check(self):
-        if (self.x + self.width > self.mouse[0] > self.x) and (self.y + self.height > self.mouse[1] > self.y):
-            if self.click[0] == 1:
-                return self.msg
+    def check(self, pos):
+        if (self.x + self.width > pos[0] > self.x) and (self.y + self.height > pos[1] > self.y):
+            return self.msg
         return None

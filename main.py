@@ -8,7 +8,13 @@ from ModeMove import *
 from ModeItem import *
 
 class Data():
-    pass
+    def __repr__(self):
+        attrs = vars(self)
+        result = ""
+        for attr in attrs:
+            if attr != "windowSize" and attr != "screen" and attr != "background" and attr != "backgroundImg":
+                result += str(attr) + " " + str(eval("self." + str(attr))) + '\n'
+        return result + '\n'
 
 def initScreen(data):
     pygame.init()
@@ -32,6 +38,53 @@ def drawTitle(data):
         textpos = text.get_rect(centerx = data.screen.get_width()/2)
         data.screen.blit(text, textpos)
 
+def drawScreen(data):
+    data.background.blit(data.backgroundImg, [0, 0])
+    data.screen.blit(data.background, (0, 0))
+    drawTitle(data)
+
+    if data.mode == "startMode":
+        startModeButtons(data)
+    elif data.mode == "battleMode":
+        battleModeButtons(data)
+    elif data.mode == "moveMode":
+        moveModeButtons(data)
+    elif data.mode == "itemMode":
+        itemModeButtons(data)
+
+def drawButtons(data):
+    pos = pygame.mouse.get_pos()
+    if data.mode == "startMode":
+        startDrawButtons(data, pos)
+    elif data.mode == "battleMode":
+        battleDrawButtons(data, pos)
+    elif data.mode == "moveMode":
+        moveDrawButtons(data, pos)
+    elif data.mode == "itemMode":
+        itemDrawButtons(data, pos)
+
+def switchScreens(data):
+    events = pygame.event.get()
+    clicked = False
+    if len(events) > 0:
+        event = events[0]
+        if event.type == MOUSEBUTTONDOWN:
+            clicked = True
+            pos = event.pos
+        else:
+            pass
+
+    if clicked:
+        if data.mode == "startMode":
+            if not startProcessClick(data, pos):    return False
+        elif data.mode == "battleMode":
+            if not battleProcessClick(data, pos):   return False
+        elif data.mode == "moveMode":
+            if not moveProcessClick(data, pos):     return False
+        elif data.mode == "itemMode":
+            if not itemProcessClick(data, pos):     return False
+    return True
+
 ##############################################################
 # run function to call
 ##############################################################
@@ -47,30 +100,9 @@ def run(width=400, height=400):
     initBackground(data)
 
     while True:
-        data.background.blit(data.backgroundImg, [0, 0])
-        data.screen.blit(data.background, (0, 0))
-        drawTitle(data)
-
-        if data.mode == "startMode":
-            startModeButtons(data)
-            if not startProcessButtons(data):   return
-            if not startModeEvents(data):   return
-        elif data.mode == "battleMode":
-            battleModeButtons(data)
-            if not battleProcessButtons(data):  return
-            if not battleModeEvents(data):  return
-        elif data.mode == "moveMode":
-            moveModeButtons(data)
-            if not moveProcessButtons(data):    return
-            if not moveModeEvents(data):    return
-        elif data.mode == "itemMode":
-            itemModeButtons(data)
-            if not itemProcessButtons(data):    return
-            if not itemModeEvents(data):    return
-        else:
-            pass
-        # other game modes
-        
+        drawScreen(data)
+        drawButtons(data)
+        if not switchScreens(data):     return
         pygame.display.flip()
 
 run(800, 600)

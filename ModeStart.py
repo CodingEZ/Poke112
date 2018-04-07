@@ -2,14 +2,17 @@ import pygame
 from pygame.locals import *
 from Button import Button
 
-def startProcessButtons(data):
+def startDrawButtons(data, pos):
     for button in data.buttons:
-        button.draw(data.screen)
-        msg = button.check()
+        button.draw(pos, data.screen)
+
+def startProcessClick(data, pos):
+    for button in data.buttons:
+        msg = button.check(pos)
         if msg != None:
             if msg == "Start":
                 data.mode = "battleMode"
-            elif ms == "Quit":
+            elif msg == "Quit":
                 pygame.quit()
                 return False
     return True
