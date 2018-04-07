@@ -1,5 +1,4 @@
 
-
 import pygame
 from pygame.locals import *
 import time
@@ -15,8 +14,8 @@ height = 600
 gameDisplay = pygame.display.set_mode((800, 600)) # must put in a tuple, kinda like setting up a canvas its the 'surface'
 pygame.display.set_caption('move test')
 pygame.draw.rect(gameDisplay, (0,0,255), (0,0,800,600))
-pygame.mixer.music.load('champion.mp3')
-pygame.mixer.music.play(-1)
+#pygame.mixer.music.load('champion.mp3')
+#pygame.mixer.music.play(-1)
 
 
 
@@ -64,10 +63,10 @@ class RegradeReq(Move):
     def __init__(self):
         self.power = 42
         self.type = "water"
-        self.animation = regradeAnimate()
+        self.animation = RegradeReq.animate()
         
     @staticmethod
-    def regradeAnimate():
+    def animate():
         def init(data):
             data.hands = pygame.image.load('prayemoji.png').convert()
             data.imgW = 100
@@ -77,8 +76,8 @@ class RegradeReq(Move):
             data.regrade = "Player made a regrade request!¡"
         
         def draw(data):
-            snd1 = pygame.mixer.Sound('firered_003F.wav')
-            snd1.play(2)
+            #snd1 = pygame.mixer.Sound('firered_003F.wav')
+            #snd1.play(2)
             text = pygame.font.Font(None,25)
             data.xt = width/4
             data.yt = height - 50
@@ -102,10 +101,10 @@ class ThreeAMPiazza(Move):
     def __init__(self):
         self.power = 60
         self.type = 'water'
-        self.animation = threeAMPiazzaAnimate()
+        self.animation = ThreeAMPiazza.animate()
     
     @staticmethod
-    def threeAMPiazzaAnimate():
+    def animate():
         def init(data):
             data.piazza = "Player posted a question on Piazza at 3AM!"
             data.x = width/4
@@ -113,8 +112,8 @@ class ThreeAMPiazza(Move):
             data.counter = 0
         
         def draw(data):
-            snd1 = pygame.mixer.Sound('firered_0014.wav')
-            snd1.play(2)
+            #snd1 = pygame.mixer.Sound('firered_0014.wav')
+            #snd1.play(2)
             text = pygame.font.Font(None,25)
             while data.counter < 3:
                 gameDisplay.blit(text.render(data.piazza,True,(0,0,0)),(data.x,data.y))
@@ -133,10 +132,10 @@ class Sleep(Move):
         self.power = 0
         attacker.health += 30
         self.type = "grass"
-        self.animation = sleepAnimate()
+        self.animation = Sleep.animate()
         
     @staticmethod
-    def sleepAnimate():
+    def animate():
         def init(data):
             data.zs = pygame.image.load('zs.png')
             data.imgW = 100
@@ -150,8 +149,8 @@ class Sleep(Move):
             data.sleep = "Player has crashed!"
             
         def draw(data):
-            snd1 = pygame.mixer.Sound('sparkle.wav')
-            snd1.play()
+            #snd1 = pygame.mixer.Sound('sparkle.wav')
+            #snd1.play()
             text = pygame.font.Font(None,25)
             data.xt = width/4
             data.yt = height - 50
@@ -180,10 +179,10 @@ class OHQueue(Move):
         self.power = 0
         attacker.attack +=3
         self.type='grass'
-        self.animation = ohAnimate()
+        self.animation = OHQueue.animate()
     
     @staticmethod
-    def ohAnimate():
+    def animate():
         def init(data):
             data.OH = "Student is back on queue!?"
             data.x = width/4
@@ -191,8 +190,8 @@ class OHQueue(Move):
             data.counter = 0
         
         def draw(data):
-            snd1 = pygame.mixer.Sound('firered_0010.wav')
-            snd1.play(2)
+            #snd1 = pygame.mixer.Sound('firered_0010.wav')
+            #snd1.play(2)
             text = pygame.font.Font(None,25)
             while data.counter < 3:
                 gameDisplay.blit(text.render(data.OH,True,(0,0,0)),(data.x,data.y))
@@ -211,10 +210,10 @@ class OHQueue(Move):
 class Style(Move):
     def __init__(self):
         defender.health -= 2
-        self.animation = styleAnimate()
+        self.animation = Style.animate()
     
     @staticmethod
-    def styleAnimate():
+    def animate():
         def init(data):
             data.style = "Line length violation oops"
             data.x = width/4
@@ -239,10 +238,10 @@ class FixProjector(Move):
     def __init__(self):
         self.power = 30
         self.type = 'grass'
-        self.animation = fixAnimate()
+        self.animation = FixProjector.animate()
     
     @staticmethod
-    def fixAnimate():
+    def animate():
         def init(data):
             data.projector = "TA failed to work projector"
             data.x = width/4
@@ -266,10 +265,10 @@ class FixProjector(Move):
 class VagueAnswers(Move):
     def __init__(self):
         attacker.defense += 3
-        self.animation = vagueAnimate()
+        self.animation = VagueAnswers.animate()
     
     @staticmethod
-    def vagueAnimate():
+    def animate():
         def init(data):
             data.vague = "What do you think?¡?"
             data.x = width/4
@@ -294,10 +293,10 @@ class Clap(Move):
     def __init__(self):
         self.power = 42
         self.type = 'fire'
-        self.animation = clapAnimate()
+        self.animation = Clap.animate()
     
     @staticmethod
-    def clapAnimate():
+    def animate():
         def init(data):
             data.clap = "TA's prevented sleep"
             data.x = width/4
@@ -324,10 +323,10 @@ class DebugInClass(Move):
     def __init__(self):
         self.power = 30
         self.type = 'grass'
-        self.animation = debugAnimate()
+        self.animation = DebugInClass.animate()
     
     @staticmethod
-    def debugAnimate():
+    def animate():
         def init(data):
             data.debug = "Professor tried to debug... and made more bugs!"
             data.x = width/4
@@ -351,10 +350,10 @@ class DebugInClass(Move):
 class LongLecture(Move):
     def __init__(self):
         attacker.attack += 3
-        self.animation = lectureAnimate()
+        self.animation = LongLecture.animate()
     
     @staticmethod
-    def lectureAnimate():
+    def animate():
         def init(data):
             data.lecture = "You still have two more minutes!"
             data.x = width/4
@@ -379,7 +378,7 @@ class Recursion(Move):
     def __init__(self):
         self.power = 60
         self.type = 'fire'
-        self.animation = recurseAnimate()
+        self.animation = Recursion.animate()
     
     @staticmethod
     def recurseAnimate():
@@ -407,10 +406,10 @@ class BypassPiazza(Move):
     def __init__(self):
         self.power = 30
         self.type = 'grass'
-        self.animation = bypassAnimate()
+        self.animation = BypassPiazza.animate()
         
     @staticmethod
-    def bypassAnimate():
+    def animate():
         def init(data):
             data.imgW = 200
             data.imgH = 43
@@ -451,7 +450,7 @@ while not gameExit:
         if event.type == pygame.QUIT:
             gameExit = True
         if event.type == KEYDOWN and event.key == pygame.K_SPACE:
-            BypassPiazza.bypassAnimate()
+            BypassPiazza.animate()
 
 pygame.quit()
 quit()
