@@ -8,6 +8,7 @@ from ModeMove import *
 from ModeItem import *
 from Student import *
 from TA import *
+from Move2 import *
 
 class Data():
     def __repr__(self):
@@ -83,6 +84,7 @@ def switchScreens(data):
         elif data.mode == "moveMode":
             move = moveProcessClick(data, pos)
             if move == False:       return False
+            data.move = move
             data.mode == "battleMode"
         elif data.mode == "itemMode":
             item = itemProcessClick(data, pos)
@@ -104,14 +106,49 @@ def run(width=400, height=400):
     initScreen(data)
     initBackground(data)
 
+    data.move = None
     data.student = Student(data)
     data.ta = TA(data)
+
+    move1 = RegradeReq(data.screen)
+    move2 = ThreeAMPiazza(data.screen)
+    move3 = Sleep(data.student, data.screen)
+    move4 = OHQueue(data.student, data.screen)
+    move5 = Style(data.student, data.screen)
+    move6 = FixProjector(data.screen)
+    move7 = VagueAnswers(data.ta, data.screen)
+    move8 = Clap(data.screen)
+
     while True:
         drawScreen(data)
         drawButtons(data)
         drawStudent(data)
         drawTA(data)
         if not switchScreens(data):     return
+        if data.move == "RegradeReq":
+            move1.animate(data.screen)
+            move1.damage(data.student, data.ta)
+        elif data.move == "ThreeAMPiazza":
+            move2.animate(data.screen)
+            move2.damage(data.student, data.ta)
+        elif data.move == "Sleep":
+            move3.animate(data.screen)
+            move3.damage(data.student, data.ta)
+        elif data.move == "OHQueue":
+            move4.animate(data.screen)
+            move4.damage(data.student, data.ta)
+        elif data.move == "Style":
+            move5.animate(data.screen)
+            move5.damage(data.ta, data.student)
+        elif data.move == "FixProjector":
+            move6.animate(data.screen)
+            move6.damage(data.ta, data.student)
+        elif data.move == "VagueAnswers":
+            move7.animate(data.screen)
+            move7.damage(data.ta, data.student)
+        elif data.move == "Clap":
+            move8.animate(data.screen)
+            move8.damage(data.ta, data.student)
         pygame.display.flip()
 
 run(800, 600)

@@ -16,6 +16,7 @@ def moveProcessClick(data, pos):
                 pygame.quit()
                 return False
             else:
+                data.move = msg
                 data.mode = "battleMode"
     return True
 
