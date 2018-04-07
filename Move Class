@@ -15,6 +15,8 @@ gameDisplay = pygame.display.set_mode((800, 600)) # must put in a tuple, kinda l
 pygame.display.set_caption('move test')
 pygame.draw.rect(gameDisplay, (0,0,255), (0,0,800,600))
 
+### SUPERCLASS ###
+
 class Move(pygame.sprite.Sprite):
     def damage(self, attacker, defender):
         attackerType = attacker.type
@@ -51,6 +53,8 @@ class Move(pygame.sprite.Sprite):
         if moveType == "fire" and defenderType == "fire":
             typeAdv = .5
             
+### STUDENT MOVES ###
+            
 class RegradeReq(Move):
     def __init__(self):
         self.power = 42
@@ -81,6 +85,11 @@ class RegradeReq(Move):
         data = Struct()
         init(data)
         draw(data)
+        
+class ThreeAMPiazza(Move):
+    def __init__(self):
+        self.power = 60
+        self.type = 'water'
         
 class Sleep(Move):
     def __init__(self):
@@ -121,7 +130,78 @@ class Sleep(Move):
         data = Struct()
         init(data)
         draw(data)
+        
+class OHQueue(Move):
+    def __init__(self):
+        self.power = 0
+        attacker.attack +=3
+        self.type='grass'
+        
+### TA MOVES ###
+        
+class Style(Move):
+    def __init__(self):
+        defender.health -= 2
+        
+class FixProjector(Move):
+    def __init__(self):
+        self.power = 30
+        self.type = 'grass'
+        
+class VagueAnswers(Move):
+    def __init__(self):
+        attacker.defense += 3
+        
+class Clap(Move):
+    def __init__(self):
+        self.power = 42
+        self.type = 'fire'
+        
+### PROFESSOR MOVES ###
+
+class DebugInClass(Move):
+    def __init__(self):
+        self.power = 30
+        self.type = 'grass'
+        
+class LongLecture(Move):
+    def __init__(self):
+        attacker.attack += 3
+        
+class Recursion(Move):
+    def __init__(self):
+        self.power = 60
+        self.type = 'fire'
     
+class BypassPiazza(Move):
+    def __init__(self):
+        self.power = 30
+        self.type = 'grass'
+        self.animation = bypassAnimate()
+        
+    @staticmethod
+    def bypassAnimate():
+        def init(data):
+            data.imgW = 200
+            data.imgH = 43
+            data.notification = pygame.image.load('piazzasmall.png')
+            data.rect = data.notification.get_rect()
+            data.counter = 0
+        def draw(data):
+                while data.counter < 5:
+                    data.x = random.randint((width*3/4)-100, width-data.imgW)
+                    data.y = random.randint(height/4, height*3/4)
+                    data.rect.center = (data.x, data.y)
+                    gameDisplay.blit(data.notification, (data.x, data.y))
+                    pygame.display.flip()
+                    time.sleep(.2)
+                    data.counter +=1
+                data.counter = 0
+            
+        class Struct(object): pass
+        data = Struct()
+        init(data)
+        draw(data)
 
 
 pygame.display.update()
@@ -133,7 +213,7 @@ while not gameExit:
         if event.type == pygame.QUIT:
             gameExit = True
         if event.type == KEYDOWN and event.key == pygame.K_SPACE:
-            Sleep.sleepAnimate()
+            BypassPiazza.bypassAnimate()
 
 pygame.quit()
 quit()
