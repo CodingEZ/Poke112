@@ -6,6 +6,7 @@ from ModeStart import *
 from ModeBattle import *
 from ModeMove import *
 from ModeItem import *
+from Student import *
 
 class Data():
     def __repr__(self):
@@ -98,9 +99,10 @@ def run(width=400, height=400):
     data.mode = "startMode"
     initScreen(data)
     initBackground(data)
-
+    student = Student
     while True:
         drawScreen(data)
+        
         drawButtons(data)
         if not switchScreens(data):     return
         pygame.display.flip()
@@ -113,4 +115,3 @@ print("Thank you for playing! :)")
     # menuMode
     # attackMode
     # itemMode
-
