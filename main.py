@@ -1,77 +1,47 @@
 import os, sys
-import time
 import pygame
 from pygame.locals import *
-from PIL import Image
+from ImageEdit import *
 
-def load_image(name, colorkey=None):
-    fileName = 'images/fit_' + name
-    try:
-        image = pygame.image.load(fileName)
-    except pygame.error:
-        print('Cannot load image:', fileName)
-        raise SystemExit
-    image = image.convert()
-    if colorkey is not None:
-        if colorkey is -1:
-            colorkey = image.get_at((0,0))
-        image.set_colorkey(colorkey, RLEACCEL)
-    return image, image.get_rect()
+class Data():
+    pass
 
-'''
-def resize_image(name, windonewWidth):
-    img = Image.open('images/' + name)
-    img.thumbnail(windonewWidth, Image.ANTIALIAS)
-    img.save('images/fit_' + name, 'JPEG')
-'''
-
-def resize_image(name, windonewWidth):
-    img = Image.open('images/' + name)
-    
-    width = windonewWidth[0]
-    img = Image.open('images/' + name)
-    widthChange = (width / float(img.size[0]))
-    newHeight = int((float(img.size[1]) * float(widthChange)))
-    img = img.resize((width, newHeight), Image.ANTIALIAS)
-
-    height = windonewWidth[1]
-    img = Image.open('images/' + name)
-    heightChange = (height / float(img.size[1]))
-    newWidth = int((float(img.size[0]) * float(heightChange)))
-    img = img.resize((newWidth, height), Image.ANTIALIAS)
-    img.save('images/fit_' + name, 'JPEG')
-
-def run():
-    if not pygame.font:
-        print('Warning, fonts disabled')
-    if not pygame.mixer:
-        print('Warning, sound disabled')
-
-    # Initialize
+def initScreen(data):
     pygame.init()
-    windonewWidth = (400, 400)
-    screen = pygame.display.set_mode((400, 400))
+    data.screen = pygame.display.set_mode(data.windowSize)
     pygame.display.set_caption('Poke112')
     #pygame.mouse.set_visible(0)
 
+def initBackground(data):
     # Background
-    background = pygame.Surface(screen.get_size())
-    background = background.convert()
-    background.fill((250, 250, 250))
+    data.background = pygame.Surface(data.screen.get_size())
+    data.background = data.background.convert()
+    data.background.fill((250, 250, 250))
     imgName = 'gates.jpg'
-    resize_image(imgName, windonewWidth)
-    backgroundImg = load_image(imgName)[0]
+    resize_image(imgName, data.windowSize)     # in ImageEdit class
+    data.backgroundImg = load_image(imgName)[0] # in ImageEdit class
 
     # Text on Background
     if pygame.font:     # checks if equals to None
         font = pygame.font.Font(None, 36)
         text = font.render("Poke112", 1, (10, 10, 10))
-        textpos = text.get_rect(centerx=background.get_width()/2)
-        background.blit(text, textpos)
+        textpos = text.get_rect(centerx = data.background.get_width()/2)
+        data.background.blit(text, textpos)
+
+def run(width=400, height=400):
+    if not pygame.font:
+        print('Warning, fonts disabled')
+    if not pygame.mixer:
+        print('Warning, sound disabled')
+
+    data = Data()
+    data.windowSize = (width, height)
+    initScreen(data)
+    initBackground(data)
 
     while True:
-        background.blit(backgroundImg, [0, 0])
-        screen.blit(background, (0, 0))
+        data.background.blit(data.backgroundImg, [0, 0])
+        data.screen.blit(data.background, (0, 0))
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -86,7 +56,7 @@ def run():
                 pass
         pygame.display.flip()
 
-run()
+run(400, 400)
 print("Thank you for playing! :)")
 
 
