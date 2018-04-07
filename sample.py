@@ -3,6 +3,7 @@ import time
 import pygame
 from pygame.locals import *
 from PIL import Image
+from ImageEdit import *
 
 class TA:
     def __init__(self):
@@ -49,8 +50,22 @@ class TA:
         styleText = pygame.font.Font(None, 25)
         screen.blit(styleText.render(self.points, True, (255, 255, 255)),
                      (400, 400))
-    
 
+# PROFESSOR ATTACKS -
+class Professor:
+    def __init__(self):
+        pass 
+        
+  # 1 PROFESSOR ATTACK IS RECURSION      
+    def recursion(self,screen,x,y,size,level):
+        if level==0:
+            pygame.draw.polygon(screen,(0,0,0),[(x, y,),(x+size, y),
+                              (x+size/2, y-size*(3**0.5)/2)])
+        else:
+            self.recursion( screen,x, y, size/2, level-1)
+            self.recursion( screen,x+size/2, y, size/2, level-1)
+            self.recursion( screen,x+size/4, y-size*(3**0.5)/4, size/2, level-1)
+    
     
 class PygameGame(object):
 
@@ -61,6 +76,7 @@ class PygameGame(object):
         self.sound = True 
         self.style = False 
         self.clap = False 
+        self.prof = Professor()
 
     def mousePressed(self, x, y):
         pass
@@ -103,6 +119,11 @@ class PygameGame(object):
             
 
     def redrawAll(self, screen):
+        self.prof.recursion(screen,100,100,100,3)
+        thought = 'thought-bubble-doodle-vector-14813857.jpg'
+        resize_image(thought,(200,200))
+        thoughtImg = load_image(thought)[0]
+        screen.blit(thoughtImg,(100,100))
         screen.blit(self.ta.img,(self.ta.x,self.ta.y))
         if self.clap:
             self.ta.drawHands(screen)
