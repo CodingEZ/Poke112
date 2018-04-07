@@ -1,4 +1,5 @@
 
+
 import pygame
 from pygame.locals import *
 import time
@@ -112,6 +113,8 @@ class ThreeAMPiazza(Move):
             data.counter = 0
         
         def draw(data):
+            snd1 = pygame.mixer.Sound('firered_0014.wav')
+            snd1.play(2)
             text = pygame.font.Font(None,25)
             while data.counter < 3:
                 gameDisplay.blit(text.render(data.piazza,True,(0,0,0)),(data.x,data.y))
@@ -188,6 +191,8 @@ class OHQueue(Move):
             data.counter = 0
         
         def draw(data):
+            snd1 = pygame.mixer.Sound('firered_0010.wav')
+            snd1.play(2)
             text = pygame.font.Font(None,25)
             while data.counter < 3:
                 gameDisplay.blit(text.render(data.OH,True,(0,0,0)),(data.x,data.y))
