@@ -4,11 +4,19 @@ import pygame
 from pygame.locals import *
 from PIL import Image
 from ImageEdit import *
+import random 
+
+
+
 
 class TA:
     def __init__(self):
-        # position of TA 
-        self.img = pygame.image.load('pikachu copy copy.jpg')
+        
+        # TA's  Randomized 
+        taLst = ['eyluo.jpg','raahuja.jpg','rkaufman.jpg']
+        image = random.choice(taLst)
+        self.img = pygame.image.load(image)
+        
         self.width = 400 
         self.height = 400
         self.x = 0
@@ -36,6 +44,9 @@ class TA:
         screen.blit(self.hand,(self.xhand,self.yhand))
         screen.blit(self.hand,(self.xhand1,self.yhand1))
         if self.sound==True and self.xhand==self.xhand1:
+            # slap uploaded slap sound 
+            sound = pygame.mixer.Sound('Slap-SoundMaster13-49669815.wav')
+            sound.play()
             pygame.draw.polygon(screen,(0,0,0),[(200,100),(220,90),(225,150),(210,160)])
             pygame.draw.polygon(screen,(0,0,0),[(250,50),(270,40),(275,100),(260,110)])
             pygame.draw.polygon(screen,(0,0,0),[(320,60),(340,50),(345,110),(330,120)])
@@ -50,6 +61,9 @@ class TA:
     # NEEDs to call this with a certain button     
     def drawBadStyle(self,screen):
         styleText = pygame.font.Font(None, 25)
+        # SCratching sound
+        sound = pygame.mixer.Sound('Scratching-Lisa_Redfern-839241243.wav')
+        sound.play(0,1000,0)
         screen.blit(styleText.render(self.points, True, (255, 0, 0)),
                      (150, 150))
 
@@ -128,6 +142,8 @@ class PygameGame(object):
         # increase mod to allow features to stay on screen for longer 
         if self.recursion:
             if self.time % 20==0:
+                sound = pygame.mixer.Sound('Alien_siren-KevanGC-610357990.wav')
+                sound.play(0,1000,0)
                 self.recursion= False 
         if self.style:
             if self.time % 20==0:

@@ -1,23 +1,5 @@
-
-import pygame
-from pygame.locals import *
-import time
-import random
-
-
-# probably will take out all the framework stuff 
-pygame.init()
-
-width = 800
-height = 600
-
-gameDisplay = pygame.display.set_mode((800, 600)) # must put in a tuple, kinda like setting up a canvas its the 'surface'
-pygame.display.set_caption('move test')
-pygame.draw.rect(gameDisplay, (0,0,255), (0,0,800,600))
-
-### SUPERCLASS ###
-
 class Move(pygame.sprite.Sprite):
+
     def damage(self, attacker, defender):
         attackerType = attacker.type
         defenderType = defender.type
@@ -26,7 +8,7 @@ class Move(pygame.sprite.Sprite):
         movePower = self.power
         moveType = self.type
         STAB = 1
-        typeAdv = typeAdvCalc(attackerType, defenderType)
+        typeAdv = self.typeAdvCalc(attackerType, defenderType)
         if attackerType == moveType:
             STAB = 1.5
         damage = .44 * movePower * (attack/defense) * typeAdv * STAB
@@ -36,22 +18,25 @@ class Move(pygame.sprite.Sprite):
         moveType = self.type
         if moveType == "water" and defenderType == "water":
             typeAdv = .5
-        if moveType == "water" and defenderType == "grass":
+        elif moveType == "water" and defenderType == "grass":
             typeAdv = .5
-        if moveType == "water" and defenderType == "fire":
+        elif moveType == "water" and defenderType == "fire":
             typeAdv = 2
-        if moveType == "grass" and defenderType == "water":
+        elif moveType == "grass" and defenderType == "water":
             typeAdv = 2
-        if moveType == "grass" and defenderType == "grass":
+        elif moveType == "grass" and defenderType == "grass":
             typeAdv = .5
-        if moveType == "grass" and defenderType == "fire":
+        elif moveType == "grass" and defenderType == "fire":
             typeAdv = .5
-        if moveType == "fire" and defenderType == "water":
+        elif moveType == "fire" and defenderType == "water":
             typeAdv = .5
-        if moveType == "fire" and defenderType == "grass":
+        elif moveType == "fire" and defenderType == "grass":
             typeAdv = 2
-        if moveType == "fire" and defenderType == "fire":
+        elif moveType == "fire" and defenderType == "fire":
             typeAdv = .5
+        else:
+            typeAdv = 1
+        return typeAdv
             
 ### STUDENT MOVES ###
             
@@ -132,7 +117,7 @@ class Sleep(Move):
         draw(data)
         
 class OHQueue(Move):
-    def __init__(self):
+    def __init__(self, attacker):
         self.power = 0
         attacker.attack +=3
         self.type='grass'
@@ -140,7 +125,7 @@ class OHQueue(Move):
 ### TA MOVES ###
         
 class Style(Move):
-    def __init__(self):
+    def __init__(self, defender):
         defender.health -= 2
         
 class FixProjector(Move):
@@ -165,7 +150,7 @@ class DebugInClass(Move):
         self.type = 'grass'
         
 class LongLecture(Move):
-    def __init__(self):
+    def __init__(self, attacker):
         attacker.attack += 3
         
 class Recursion(Move):
@@ -201,19 +186,5 @@ class BypassPiazza(Move):
         class Struct(object): pass
         data = Struct()
         init(data)
+
         draw(data)
-
-
-pygame.display.update()
-
-gameExit = False
-
-while not gameExit:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            gameExit = True
-        if event.type == KEYDOWN and event.key == pygame.K_SPACE:
-            BypassPiazza.bypassAnimate()
-
-pygame.quit()
-quit()
