@@ -1,66 +1,41 @@
 import pygame
 import random
-pygame.init()
-
-windowSize = (400,300)
-win = pygame.display.set_mode(windowSize)
-
-
-pygame.display.set_caption("First Game")
-
-x = 100
-y = 50
-width = 40
-height = 60
-vel = 5
-
-WHITE = (255,255,255)
-GREEN = (0,255,0)
-RED = (255,0,0)
-WIDTH = HEIGHT = 100
-
-img = pygame.image.load('pikachu copy copy.jpg').convert()
-bg = pygame.image.load('gates copy.jpg')
-student = pygame.image.load('student face.jpg')
 
 class Student(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, data):
         pygame.sprite.Sprite.__init__(self)
-        self.image = student
-        self.image.set_colorkey(WHITE)
+        self.image = pygame.image.load('images/student face.jpg')
+        self.image.set_colorkey((255,255,255))
         self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH/2, HEIGHT/2)
-        self.x = 50
-        self.y = 200
-        self.health = 0
-        self.attack = 0
+        self.rect.center = (50, 50)
+        self.x = data.windowSize[0] * (1/4)
+        self.y = data.windowSize[1] * (5/8)
+        self.health = 112
+        self.attack = 20
+        self.defense = 20
+        types = ['grass', 'fire', 'water']
+        self.type = types[random.choice([0, 1, 2])]
         self.time = 200
-        self.x2 = 50
-        self.y2 = 265
+        self.x2 = data.windowSize[0] * (17/64)
+        self.y2 = data.windowSize[1] * (13/16)
         self.width = 75
         self.height = 2
+        self.moveSet = ["RegradeReq", "ThreeAMPiazza", "Sleep", "OHQueue"]
 
-    def timerFired2(self,dt):
+    def timerFired(self, dt):
         self.time += 1
-        if self.time%2 == 0:
-            self.y+=dt
+        if self.time % 2 == 0:
+            self.y += dt
         else:
             self.y -= dt
     
-    def sleep(self,surface):
-        surface = win
-        key = pygame.key.get_pressed()
-        width = 75
-        if key[pygame.K_UP] and self.width <= width:
-            self.width += 5
-            pygame.draw.rect(surface,GREEN,(self.x2,self.y2,self.width,self.height),5)
-        if key[pygame.K_DOWN] and self.width >= 0:
-            self.width -= 5
-            pygame.draw.rect(surface,GREEN,(self.x2,self.y2,self.width,self.height),2)
+    def drawHealth(self, surface):
+        pygame.draw.rect(surface,(0,255,0),(self.x2,self.y2,self.width,self.height),5)
+        pygame.draw.rect(surface,(0,255,0),(self.x2,self.y2,self.width,self.height),2)
     
     def byeStudent(self,surface):
         if self.width <= 0:
-            student2 = pygame.draw.circle(surface,WHITE,(self.x+27,self.y+30),25)
+            student2 = pygame.draw.circle(surface,(255,255,255),(self.x+27,self.y+30),25)
     
     def move(self):
         self.x += 5
@@ -68,30 +43,17 @@ class Student(pygame.sprite.Sprite):
     def moveBack(self):
         self.x -= 5
     
-    def draw(self,surface):
-        surface = win
+    def draw(self, surface):
         width = 75
         height = 2
-        pygame.draw.rect(surface,RED,(self.x2,self.y2,width,height))
-        pygame.draw.rect(surface,GREEN,(self.x2,self.y2,self.width,self.height),5)
+        pygame.draw.rect(surface,(255,0,0),(self.x2,self.y2,width,height))
+        pygame.draw.rect(surface,(0,255,0),(self.x2,self.y2,self.width,self.height),5)
         surface.blit(self.image, (self.x,self.y))
 
-all_sprites = pygame.sprite.Group()
-student = Student()
-all_sprites.add(student)
-
-run = True
-while run:
-    win.blit(bg,(0,0))
-    pygame.time.delay(100)
-    student.timerFired2(2)
-    student.sleep(win)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-    student.draw(win)
-    student.byeStudent(win)
-    pygame.display.flip()
-    
-
-pygame.quit()
+def drawStudent(data):
+    pygame.time.delay(200)
+    data.student.timerFired(2)
+    data.student.drawHealth(data.backgroundImg)
+    data.student.draw(data.backgroundImg)
+    data.student.byeStudent(data.backgroundImg)
+    #pygame.display.flip()
