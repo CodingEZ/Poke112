@@ -23,13 +23,15 @@ class TA:
         style = pygame.font.Font(None, 48)
         self.text = style.render('-2', True, (255, 0, 0))
         self.textRect = eval(str(self.text.get_rect(center=(200,200)))[5:-1])
-        self.sound = False 
+        self.sound = True 
         self.points = "-2"
         
     
     def drawTA(self,screen):
         screen.blit(self.img,(self.x,self.y))
     
+    # Draw hands then claps them once 
+    # need to figure out how to end this once clap has ended 
     def drawHands(self,screen):
         screen.blit(self.hand,(self.xhand,self.yhand))
         screen.blit(self.hand,(self.xhand1,self.yhand1))
@@ -37,19 +39,19 @@ class TA:
             pygame.draw.polygon(screen,(0,0,0),[(200,100),(220,90),(225,150),(210,160)])
             pygame.draw.polygon(screen,(0,0,0),[(250,50),(270,40),(275,100),(260,110)])
             pygame.draw.polygon(screen,(0,0,0),[(320,60),(340,50),(345,110),(330,120)])
-            self.sound=False 
-            
-        
+    
+    # NEEd it to move hands!!    
     def moveHands(self):
         self.xhand-=self.speed
         self.xhand1+=self.speed
         self.yhand+=self.speed
         self.yhand1-=self.speed 
-        
+   
+    # NEEDs to call this with a certain button     
     def drawBadStyle(self,screen):
         styleText = pygame.font.Font(None, 25)
-        screen.blit(styleText.render(self.points, True, (255, 255, 255)),
-                     (400, 400))
+        screen.blit(styleText.render(self.points, True, (255, 0, 0)),
+                     (150, 150))
 
 # PROFESSOR ATTACKS -
 class Professor:
@@ -68,15 +70,16 @@ class Professor:
     
     
 class PygameGame(object):
-
+    # initializing stuff 
     def init(self):
         self.ta = TA()
         self.speed = 2 
         self.time = 0 
-        self.sound = True 
         self.style = False 
         self.clap = False 
+        self.recursion= False
         self.prof = Professor()
+         
 
     def mousePressed(self, x, y):
         pass
@@ -91,7 +94,6 @@ class PygameGame(object):
         pass
 
     def keyPressed(self, keyCode, modifier):
-        print('a')
         pass  
         
 
@@ -105,26 +107,39 @@ class PygameGame(object):
             self.style = True 
         
     
-    
+    # need this too 
+    # controls how long features show up 
     def timerFired(self, dt):
         self.time+=1
+        # bobbing players 
         if self.time%2==0:
             self.ta.y-=self.speed
         else:
-            self.ta.y+=self.speed 
-            
+            self.ta.y+=self.speed
+        # controlling movement of clap and resetting position after 1 clap once
         if self.clap:
             if (self.ta.xhand!=self.ta.xhand1 and self.ta.yhand!=self.ta.yhand1):
                 self.ta.moveHands()
-            
+            else:
+                self.clap = False 
+                self.ta.xhand,self.ta.yhand = 250,50
+                self.ta.xhand1,self.ta.yhand1 = 150,200
+        # recursion and style features that stay on screen for a second before disappearing
+        # increase mod to allow features to stay on screen for longer 
+        if self.recursion:
+            if self.time % 20==0:
+                self.recursion= False 
+        if self.style:
+            if self.time % 20==0:
+                self.style = False 
+                
 
+
+    # need this too 
     def redrawAll(self, screen):
-        self.prof.recursion(screen,100,100,100,3)
-        thought = 'thought-bubble-doodle-vector-14813857.jpg'
-        resize_image(thought,(200,200))
-        thoughtImg = load_image(thought)[0]
-        screen.blit(thoughtImg,(100,100))
-        screen.blit(self.ta.img,(self.ta.x,self.ta.y))
+        self.ta.drawTA(screen)
+        if self.recursion:
+            self.prof.recursion(screen,100,100,100,3)
         if self.clap:
             self.ta.drawHands(screen)
         if self.style:
@@ -168,10 +183,11 @@ class PygameGame(object):
                     self.mouseDrag(*(event.pos))
                 if event.type == pygame.KEYDOWN:
                     self._keys[event.key] = True
-                    self.pressedKey(event.key)
+                    self.clap = True 
+                    self.style = True 
+                    self.recursion = True 
                     self.keyPressed(event.key, event.mod)
                 elif event.type == pygame.KEYUP:
-                    print("hereeeee")
                     # BAD STYLE 
                     #self._keys[event.key] = False
                     self.keyReleased(event.key, event.mod)
