@@ -41,10 +41,9 @@ def run():
         textpos = text.get_rect(centerx=background.get_width()/2)
         background.blit(text, textpos)
 
-    screen.blit(background, (0, 0))
-    image, imageRect = load_image('tree.png')
-
     while True:
+        screen.blit(background, (0, 0))
+        backImg, backImgRect = load_image('tree.png')
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -52,10 +51,14 @@ def run():
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 return
             elif event.type == MOUSEBUTTONDOWN:
+                # make some kind of move?
                 pass
             elif event.type == MOUSEBUTTONUP:
+                # unmake some kind of move?
                 pass
         pygame.display.flip()
 
 run()
 print("Thank you for playing! :)")
+
+
