@@ -17,6 +17,7 @@ vel = 5
 WHITE = (255,255,255)
 GREEN = (0,255,0)
 RED = (255,0,0)
+YELLOW = (255,215,0)
 WIDTH = HEIGHT = 100
 
 img = pygame.image.load('pikachu copy copy.jpg').convert()
@@ -39,6 +40,8 @@ class Student(pygame.sprite.Sprite):
         self.y2 = 265
         self.width = 75
         self.height = 2
+        self.eugene = "gO KnICks"
+        self.roman = "these bad bois"
 
     def timerFired2(self,dt):
         self.time += 1
@@ -62,12 +65,6 @@ class Student(pygame.sprite.Sprite):
         if self.width <= 0:
             student2 = pygame.draw.circle(surface,WHITE,(self.x+27,self.y+30),25)
     
-    def move(self):
-        self.x += 5
-    
-    def moveBack(self):
-        self.x -= 5
-    
     def draw(self,surface):
         surface = win
         width = 75
@@ -75,6 +72,19 @@ class Student(pygame.sprite.Sprite):
         pygame.draw.rect(surface,RED,(self.x2,self.y2,width,height))
         pygame.draw.rect(surface,GREEN,(self.x2,self.y2,self.width,self.height),5)
         surface.blit(self.image, (self.x,self.y))
+    
+    def goKnicks(self,surface):
+        surface = win
+        text = pygame.font.Font(None,40)
+        # change according to window size
+        posX = random.randint(0,400)
+        posX2 = random.randint(0,400)
+        posY = random.randint(0,300)
+        posY2 = random.randint(0,300)
+        if self.time%20 == 0:
+            win.blit(text.render(self.eugene,True, (255,215,0)),(posX,posY))
+            win.blit(text.render(self.roman,True,(255,0,0)),(posX2,posY2))
+        
 
 all_sprites = pygame.sprite.Group()
 student = Student()
@@ -83,9 +93,10 @@ all_sprites.add(student)
 run = True
 while run:
     win.blit(bg,(0,0))
-    pygame.time.delay(100)
+    pygame.time.delay(300)
     student.timerFired2(2)
     student.sleep(win)
+    student.goKnicks(win)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
