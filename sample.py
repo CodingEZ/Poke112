@@ -4,11 +4,19 @@ import pygame
 from pygame.locals import *
 from PIL import Image
 from ImageEdit import *
+import random 
+
+
+
 
 class TA:
     def __init__(self):
-        # position of TA 
-        self.img = pygame.image.load('pikachu copy copy.jpg')
+        
+        # TA's  Randomized 
+        taLst = ['eyluo.jpg','raahuja.jpg','rkaufman.jpg']
+        image = random.choice(taLst)
+        self.img = pygame.image.load(image)
+        
         self.width = 400 
         self.height = 400
         self.x = 0
@@ -67,8 +75,6 @@ class Professor:
   # 1 PROFESSOR ATTACK IS RECURSION      
     def recursion(self,screen,x,y,size,level):
         if level==0:
-            sound = pygame.mixer.Sound('Alien_siren-KevanGC-610357990.wav')
-            sound.play(0,1000,0)
             pygame.draw.polygon(screen,(0,0,0),[(x, y,),(x+size, y),
                               (x+size/2, y-size*(3**0.5)/2)])
         else:
@@ -136,6 +142,8 @@ class PygameGame(object):
         # increase mod to allow features to stay on screen for longer 
         if self.recursion:
             if self.time % 20==0:
+                sound = pygame.mixer.Sound('Alien_siren-KevanGC-610357990.wav')
+                sound.play(0,1000,0)
                 self.recursion= False 
         if self.style:
             if self.time % 20==0:
