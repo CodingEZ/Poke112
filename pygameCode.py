@@ -1,11 +1,7 @@
 import os, sys
+import time
 import pygame
 from pygame.locals import *
-
-if not pygame.font:
-    print('Warning, fonts disabled')
-if not pygame.mixer:
-    print('Warning, sound disabled')
 
 def load_image(name, colorkey=None):
     fullname = os.path.join('images', name)
@@ -21,6 +17,10 @@ def load_image(name, colorkey=None):
         image.set_colorkey(colorkey, RLEACCEL)
     return image, image.get_rect()
 
+if not pygame.font:
+    print('Warning, fonts disabled')
+if not pygame.mixer:
+    print('Warning, sound disabled')
 
 # Initialize
 pygame.init()
@@ -43,6 +43,9 @@ if pygame.font:     # checks if equals to None
 screen.blit(background, (0, 0))
 pygame.display.flip()
 
+time.sleep(2)
+pygame.quit()
+
 '''
 load_image('tree.png')
 for event in pygame.event.get():
@@ -59,6 +62,3 @@ for event in pygame.event.get():
     elif event.type == MOUSEBUTTONUP:
         fist.unpunch()
 '''
-
-
-
