@@ -20,7 +20,6 @@ def initScreen(data):
     pygame.init()
     data.screen = pygame.display.set_mode(data.windowSize)
     pygame.display.set_caption('Poke112')
-    #pygame.mouse.set_visible(0)
 
 def initBackground(data):
     data.background = pygame.Surface(data.screen.get_size())
@@ -80,9 +79,13 @@ def switchScreens(data):
         elif data.mode == "battleMode":
             if not battleProcessClick(data, pos):   return False
         elif data.mode == "moveMode":
-            if not moveProcessClick(data, pos):     return False
+            move = moveProcessClick(data, pos)
+            if move == False:       return False
+            
         elif data.mode == "itemMode":
-            if not itemProcessClick(data, pos):     return False
+            item = itemProcessClick(data, pos):
+            if item == False:       return False
+            
     return True
 
 ##############################################################
@@ -107,10 +110,4 @@ def run(width=400, height=400):
 
 run(800, 600)
 print("Thank you for playing! :)")
-
-# possible game modes:
-    # battleMode
-    # menuMode
-    # attackMode
-    # itemMode
 
