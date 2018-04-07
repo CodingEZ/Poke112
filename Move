@@ -14,6 +14,10 @@ height = 600
 gameDisplay = pygame.display.set_mode((800, 600)) # must put in a tuple, kinda like setting up a canvas its the 'surface'
 pygame.display.set_caption('move test')
 pygame.draw.rect(gameDisplay, (0,0,255), (0,0,800,600))
+pygame.mixer.music.load('champion.mp3')
+pygame.mixer.music.play(-1)
+
+
 
 ### SUPERCLASS ###
 
@@ -71,6 +75,8 @@ class RegradeReq(Move):
             data.counter = 0
         
         def draw(data):
+            snd1 = pygame.mixer.Sound('firered_003F.wav')
+            snd1.play(2)
             while data.counter < 3:
                 data.x = random.randint(0, width/2-data.imgW)
                 data.y = random.randint(0, height/2-data.imgH)
@@ -112,6 +118,8 @@ class Sleep(Move):
             data.counter = 0
             
         def draw(data):
+            snd1 = pygame.mixer.Sound('sparkle.wav')
+            snd1.play()
             while data.counter <= 1:
                 pygame.draw.rect(gameDisplay, (0,0,255), (0,0,800,600))
                 gameDisplay.blit(data.zs, (data.x, data.y))
@@ -188,15 +196,17 @@ class BypassPiazza(Move):
             data.rect = data.notification.get_rect()
             data.counter = 0
         def draw(data):
-                while data.counter < 5:
-                    data.x = random.randint((width*3/4)-100, width-data.imgW)
-                    data.y = random.randint(height/4, height*3/4)
-                    data.rect.center = (data.x, data.y)
-                    gameDisplay.blit(data.notification, (data.x, data.y))
-                    pygame.display.flip()
-                    time.sleep(.2)
-                    data.counter +=1
-                data.counter = 0
+            snd1 = pygame.mixer.Sound('firered_001D.wav')
+            snd1.play(4)
+            while data.counter < 5:
+                data.x = random.randint((width*3/4)-100, width-data.imgW)
+                data.y = random.randint(height/4, height*3/4)
+                data.rect.center = (data.x, data.y)
+                gameDisplay.blit(data.notification, (data.x, data.y))
+                pygame.display.flip()
+                time.sleep(.2)
+                data.counter +=1
+            data.counter = 0
             
         class Struct(object): pass
         data = Struct()
@@ -213,7 +223,7 @@ while not gameExit:
         if event.type == pygame.QUIT:
             gameExit = True
         if event.type == KEYDOWN and event.key == pygame.K_SPACE:
-            BypassPiazza.bypassAnimate()
+            RegradeReq.regradeAnimate()
 
 pygame.quit()
 quit()
