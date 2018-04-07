@@ -20,7 +20,7 @@ def battleProcessClick(data, pos):
     return True
 
 def battleModeButtons(data):
-    buttonW = 100
+    buttonW = 200
     buttonH = 50
     data.buttons = {
                     Button("Moves", data.windowSize[0]//10 - buttonW//2,

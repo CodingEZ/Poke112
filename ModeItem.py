@@ -20,7 +20,7 @@ def itemProcessClick(data, pos):
     return True
 
 def itemModeButtons(data):
-    buttonW = 100
+    buttonW = 200
     buttonH = 50
     data.buttons = {
                     Button("Item1", data.windowSize[0]//10 - buttonW//2,

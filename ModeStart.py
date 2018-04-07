@@ -18,14 +18,14 @@ def startProcessClick(data, pos):
     return True
 
 def startModeButtons(data):
-    buttonW = 100
+    buttonW = 200
     buttonH = 50
     data.buttons = {
-                    Button("Start", data.windowSize[0]//2 + buttonW//2,
-                           data.windowSize[1]//2 - buttonH//2,
+                    Button("Start", data.windowSize[0]//3 + buttonW//2,
+                           data.windowSize[1]//3 - buttonH//2,
                            buttonW, buttonH, (0, 0, 255), (255, 0, 255)),
-                    Button("Quit", data.windowSize[0]//2 + buttonW//2,
-                           data.windowSize[1]//2 + buttonH//2,
+                    Button("Quit", data.windowSize[0]//3 + buttonW//2,
+                           data.windowSize[1]//3 + buttonH//2,
                            buttonW, buttonH, (0, 0, 255), (255, 0, 255))
                     }
 

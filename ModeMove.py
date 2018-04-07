@@ -20,23 +20,21 @@ def moveProcessClick(data, pos):
     return True
 
 def moveModeButtons(data):
-    buttonW = 100
+    buttonW = 200
     buttonH = 50
-    
-    data.buttons = {
-                    Button("Move1", data.windowSize[0]//10 - buttonW//2,
-                           data.windowSize[1]//10 - buttonH//2,
-                           buttonW, buttonH, (0, 0, 255), (255, 0, 255)),
-                    Button("Move2", data.windowSize[0]//10 - buttonW//2,
-                           data.windowSize[1]//10 + buttonH//2,
-                           buttonW, buttonH, (0, 0, 255), (255, 0, 255)),
-                    Button("Back", data.windowSize[0]//10 - buttonW//2,
-                           data.windowSize[1]//10 + 3*buttonH//2,
-                           buttonW, buttonH, (0, 0, 255), (255, 0, 255)),
-                    Button("Quit", data.windowSize[0]//10 - buttonW//2,
-                           data.windowSize[1]//10 + 5*buttonH//2,
-                           buttonW, buttonH, (0, 0, 255), (255, 0, 255))
-                    }
+
+    moves = data.student.moveSet
+    data.buttons = []
+    for index in range(len(moves)):
+        data.buttons.append( Button(moves[index], data.windowSize[0]//10 - buttonW//2,
+                               data.windowSize[1]//10 - buttonH//2 + index * buttonH,
+                               buttonW, buttonH, (0, 0, 255), (255, 0, 255)) )
+    data.buttons.append( Button("Back", data.windowSize[0]//10 - buttonW//2,
+                           data.windowSize[1]//10 - buttonH//2 + (index+1) * buttonH,
+                           buttonW, buttonH, (0, 0, 255), (255, 0, 255)) )
+    data.buttons.append( Button("Quit", data.windowSize[0]//10 - buttonW//2,
+                           data.windowSize[1]//10 - buttonH//2 + (index+2) * buttonH,
+                           buttonW, buttonH, (0, 0, 255), (255, 0, 255)) )
 
 def moveModeEvents(data):
     for event in pygame.event.get():
