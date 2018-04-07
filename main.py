@@ -13,7 +13,6 @@ def initScreen(data):
     #pygame.mouse.set_visible(0)
 
 def initBackground(data):
-    # Background
     data.background = pygame.Surface(data.screen.get_size())
     data.background = data.background.convert()
     data.background.fill((250, 250, 250))
@@ -28,6 +27,92 @@ def initBackground(data):
         textpos = text.get_rect(centerx = data.background.get_width()/2)
         data.background.blit(text, textpos)
 
+###############################################################
+# Different modes
+###############################################################
+
+def startModeEvents(data):
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            return False
+        elif event.type == KEYDOWN:
+            pass            
+        elif event.type == MOUSEBUTTONDOWN:
+            # make some kind of move?
+            pass
+        elif event.type == MOUSEBUTTONUP:
+            # unmake some kind of move?
+            pass
+    return True
+
+def battleModeEvents(data):
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            return False
+        elif event.type == KEYDOWN:
+            pass
+        elif event.type == MOUSEBUTTONDOWN:
+            # make some kind of move?
+            pass
+        elif event.type == MOUSEBUTTONUP:
+            # unmake some kind of move?
+            pass
+    return True
+
+def menuModeEvents(data):
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            return False
+        elif event.type == KEYDOWN:
+            if event.key == K_BACKSPACE:
+                data.mode = "battleMode"
+        elif event.type == MOUSEBUTTONDOWN:
+            # make some kind of move?
+            pass
+        elif event.type == MOUSEBUTTONUP:
+            # unmake some kind of move?
+            pass
+    return True
+
+def moveModeEvents(data):
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            return False
+        elif event.type == KEYDOWN:
+            if event.key == K_BACKSPACE:
+                data.mode = "menuMode"
+        elif event.type == MOUSEBUTTONDOWN:
+            # make some kind of move?
+            pass
+        elif event.type == MOUSEBUTTONUP:
+            # unmake some kind of move?
+            pass
+    return True
+
+def itemModeEvents(data):
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            return False
+        elif event.type == KEYDOWN:
+            if event.key == K_BACKSPACE:
+                data.mode = "menuMode"
+        elif event.type == MOUSEBUTTONDOWN:
+            # make some kind of move?
+            pass
+        elif event.type == MOUSEBUTTONUP:
+            # unmake some kind of move?
+            pass
+    return True
+
+##############################################################
+# run function to call
+##############################################################
+
 def run(width=400, height=400):
     if not pygame.font:
         print('Warning, fonts disabled')
@@ -36,27 +121,41 @@ def run(width=400, height=400):
 
     data = Data()
     data.windowSize = (width, height)
+    data.mode = "startMode"
     initScreen(data)
     initBackground(data)
 
     while True:
         data.background.blit(data.backgroundImg, [0, 0])
         data.screen.blit(data.background, (0, 0))
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
+
+        if data.mode == "startMode":
+            if not startModeEvents(data):
                 return
-            elif event.type == KEYDOWN and event.key == K_ESCAPE:
+        elif data.mode == "battleMode":
+            if not battleModeEvents(data):
                 return
-            elif event.type == MOUSEBUTTONDOWN:
-                # make some kind of move?
-                pass
-            elif event.type == MOUSEBUTTONUP:
-                # unmake some kind of move?
-                pass
+        elif data.mode == "menuMode":
+            if not menuModeEvents(data):
+                return
+        elif data.mode == "moveMode":
+            if not moveModeEvents(data):
+                return
+        elif data.mode == "itemMode":
+            if not itemModeEvents(data):
+                return
+        else:
+            pass
+        # other game modes
+        
         pygame.display.flip()
 
 run(400, 400)
 print("Thank you for playing! :)")
 
+# possible game modes:
+    # battleMode
+    # menuMode
+    # attackMode
+    # itemMode
 
