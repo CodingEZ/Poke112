@@ -1,0 +1,46 @@
+
+import pygame
+import time
+
+class Move(pygame.sprite.Sprite):
+    
+    def damage(self, attacker, defender):
+        attackerType = attacker.type
+        defenderType = defender.type
+        attack = attacker.attack
+        defense = defender.defense
+        movePower = self.power
+        moveType = self.type
+        STAB = 1
+        typeAdv = typeAdvCalc(attackerType, defenderType)
+        if attackerType == moveType:
+            STAB = 1.5
+        damage = .44 * movePower * (attack/defense) * typeAdv * STAB
+        return damage
+            
+    def typeAdvCalc(self, defenderType):
+        moveType = self.type
+        if moveType == "water" and defenderType == "water":
+            typeAdv = .5
+        if moveType == "water" and defenderType == "grass":
+            typeAdv = .5
+        if moveType == "water" and defenderType == "fire":
+            typeAdv = 2
+        if moveType == "grass" and defenderType == "water":
+            typeAdv = 2
+        if moveType == "grass" and defenderType == "grass":
+            typeAdv = .5
+        if moveType == "grass" and defenderType == "fire":
+            typeAdv = .5
+        if moveType == "fire" and defenderType == "water":
+            typeAdv = .5
+        if moveType == "fire" and defenderType == "grass":
+            typeAdv = 2
+        if moveType == "fire" and defenderType == "fire":
+            typeAdv = .5
+            
+class RegradeReq(Move):
+    def __init__(self):
+        self.power = 42
+        self.type = "water"
+        self.animation = time.sleep(1)
