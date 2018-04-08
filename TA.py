@@ -56,4 +56,3 @@ def drawTA(data):
     data.ta.drawHealth(data.backgroundImg)
     data.ta.draw(data.backgroundImg)
     data.ta.byeTA(data.backgroundImg)
-    #pygame.display.flip()

@@ -13,7 +13,7 @@ class TA:
     def __init__(self):
         
         # TA's  Randomized 
-        taLst = ['eyluo.jpg','raahuja.jpg','rkaufman.jpg']
+        taLst = ['images/eyluo.jpg','images/raahuja.jpg','images/rkaufman.jpg']
         image = random.choice(taLst)
         self.img = pygame.image.load(image)
         
@@ -24,7 +24,7 @@ class TA:
         self.display = pygame.display.set_mode((self.width,self.height))
         self.speed = 10
         self.time = 0
-        self.hand = pygame.image.load('open-hand-clip-art-9TzMxyAqc.png')
+        self.hand = pygame.image.load('images/open-hand-clip-art-9TzMxyAqc.png')
         # position of hands 
         self.xhand,self.yhand = 250,50
         self.xhand1,self.yhand1 = 150,200
@@ -45,7 +45,7 @@ class TA:
         screen.blit(self.hand,(self.xhand1,self.yhand1))
         if self.sound==True and self.xhand==self.xhand1:
             # slap uploaded slap sound 
-            sound = pygame.mixer.Sound('Slap-SoundMaster13-49669815.wav')
+            sound = pygame.mixer.Sound('sounds/Slap-SoundMaster13-49669815.wav')
             sound.play()
             pygame.draw.polygon(screen,(0,0,0),[(200,100),(220,90),(225,150),(210,160)])
             pygame.draw.polygon(screen,(0,0,0),[(250,50),(270,40),(275,100),(260,110)])
@@ -62,7 +62,7 @@ class TA:
     def drawBadStyle(self,screen):
         styleText = pygame.font.Font(None, 25)
         # SCratching sound
-        sound = pygame.mixer.Sound('Scratching-Lisa_Redfern-839241243.wav')
+        sound = pygame.mixer.Sound('sounds/Scratching-Lisa_Redfern-839241243.wav')
         sound.play(0,1000,0)
         screen.blit(styleText.render(self.points, True, (255, 0, 0)),
                      (150, 150))
@@ -142,7 +142,7 @@ class PygameGame(object):
         # increase mod to allow features to stay on screen for longer 
         if self.recursion:
             if self.time % 20==0:
-                sound = pygame.mixer.Sound('Alien_siren-KevanGC-610357990.wav')
+                sound = pygame.mixer.Sound('sounds/Alien_siren-KevanGC-610357990.wav')
                 sound.play(0,1000,0)
                 self.recursion= False 
         if self.style:

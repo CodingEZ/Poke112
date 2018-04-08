@@ -18,8 +18,8 @@ WHITE = (255,255,255)
 GREEN = (0,255,0)
 WIDTH = HEIGHT = 100
 
-img = pygame.image.load('pikachu copy copy.jpg').convert()
-bg = pygame.image.load('gates copy.jpg')
+img = pygame.image.load('images/pikachu copy copy.jpg').convert()
+bg = pygame.image.load('images/gates copy.jpg')
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -47,7 +47,7 @@ class Player(pygame.sprite.Sprite):
         surface = win
         surface.blit(self.image, (self.x,self.y))
 
-student = pygame.image.load('student face.jpg')
+student = pygame.image.load('images/student face.jpg')
 
 #230 x 230
 class Student(pygame.sprite.Sprite):
